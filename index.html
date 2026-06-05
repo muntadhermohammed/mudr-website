@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- الهوية البصرية (Gaming Dark Theme) --- */
+        
         body {
             font-family: 'Rubik', Arial, sans-serif;
             background-color: #1e293b; 
@@ -89,7 +89,7 @@
             border: 1px dashed #f43f5e;
         }
 
-        /* حاوية الأسماء لكي لا تخرج عن الشاشة إذا كان العدد كبيراً */
+      
         .names-list-container {
             max-height: 250px;
             overflow-y: auto;
@@ -165,12 +165,11 @@
         };
 
         let totalPlayers = 0;
-        let currentPlayerIndex = 0; // يبدأ من 0 (أول عنصر في المصفوفة)
-        let outOfLoopPlayerIndex = 0; // مكان اللاعب المحتال في المصفوفة
+        let currentPlayerIndex = 0; 
+        let outOfLoopPlayerIndex = 0; 
         let secretWord = "";
-        let playerNames = []; // مصفوفة جديدة لحفظ الأسماء الحقيقية
+        let playerNames = [];  
 
-        // دالة لتوليد حقول الأسماء بناءً على العدد المختار
         function goToNamesScreen() {
             totalPlayers = parseInt(document.getElementById('player-count').value);
             if (totalPlayers < 3) {
@@ -179,9 +178,9 @@
             }
 
             const container = document.getElementById('names-inputs-container');
-            container.innerHTML = ""; // تنظيف الحقول القديمة
+            container.innerHTML = ""; 
 
-            // توليد إنبوت لكل لاعب
+          
             for (let i = 1; i <= totalPlayers; i++) {
                 container.innerHTML += `<input type="text" placeholder="اسم اللاعب ${i}" class="player-name-input" required>`;
             }
@@ -189,27 +188,27 @@
             showScreen('names-screen');
         }
 
-        // دالة بدء اللعبة الفعلي بعد جمع الأسماء
+    
         function startGame() {
             const inputs = document.querySelectorAll('.player-name-input');
             playerNames = [];
 
-            // جمع الأسماء من الحقول، وإذا كان الحقل فارغاً نضع اسماً افتراضياً
+        
             inputs.forEach((input, index) => {
                 let name = input.value.trim();
                 if (name === "") name = `اللاعب ${index + 1}`;
                 playerNames.push(name);
             });
 
-            // اختيار الكلمة عشوائياً
+            
             const selectedCategory = document.getElementById('category-select').value;
             const wordsList = categories[selectedCategory];
             secretWord = wordsList[Math.floor(Math.random() * wordsList.length)];
 
-            // اختيار إندكس عشوائي للاعب اللي برا السالفة (من 0 إلى عدد اللاعبين - 1)
+         
             outOfLoopPlayerIndex = Math.floor(Math.random() * totalPlayers);
 
-            // تصفير العداد والبدء بأول لاعب في المصفوفة
+    
             currentPlayerIndex = 0;
             goToPassScreen();
         }
@@ -235,7 +234,7 @@
         }
 
         function nextPlayer() {
-            currentPlayerIndex++; // الانتقال للاعب التالي
+            currentPlayerIndex++;     
             if (currentPlayerIndex < totalPlayers) {
                 goToPassScreen();
             } else {
