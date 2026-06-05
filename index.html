@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        
         body {
             font-family: 'Rubik', Arial, sans-serif;
             background-color: #1e293b; 
@@ -30,9 +29,27 @@
             padding: 30px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
             text-align: center;
+            position: relative;
         }
 
-        h1 { color: #38bdf8; margin-bottom: 25px; font-size: 28px; }
+        h1 { color: #38bdf8; margin-bottom: 5px; font-size: 28px; }
+        
+        /* تنسيق شعار المطور الخاص بك */
+        .mudr-badge {
+            display: inline-block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background-color: #1e293b;
+            color: #38bdf8;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid #38bdf8;
+            margin-bottom: 25px;
+            font-weight: bold;
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.3);
+        }
+
         h2 { font-size: 22px; margin-bottom: 20px; color: #e2e8f0; }
         p { color: #cbd5e1; font-size: 16px; line-height: 1.6; }
 
@@ -89,7 +106,6 @@
             border: 1px dashed #f43f5e;
         }
 
-      
         .names-list-container {
             max-height: 250px;
             overflow-y: auto;
@@ -104,6 +120,7 @@
 
     <div class="game-container">
         <h1>🤫 برا السالفة</h1>
+        <div class="mudr-badge">BY: MuDr</div>
 
         <div id="setup-screen">
             <h2>إعداد اللعبة الجديدة</h2>
@@ -114,7 +131,7 @@
             <label for="category-select">اختر فئة السالفة:</label>
             <select id="category-select">
                 <option value="football">لاعبين كرة قدم ⚽</option>
-                <option value="movies"> أفلام ومسلسلات 🎬</option>
+                <option value="movies">مسلسلات 🎬</option>
             </select>
 
             <button onclick="goToNamesScreen()">التالي: إدخال الأسماء 📝</button>
@@ -122,8 +139,7 @@
 
         <div id="names-screen" class="hidden">
             <h2>أدخل أسماء اللاعبين</h2>
-            <div id="names-inputs-container" class="names-list-container">
-                </div>
+            <div id="names-inputs-container" class="names-list-container"></div>
             <button onclick="startGame()">ابدأ اللعبة الآن 🚀</button>
         </div>
 
@@ -160,7 +176,7 @@
 
     <script>
         const categories = {
-            football: [ "كريستيانو رونالدو",  "محمد صلاح", "مبابي", "هالاند", "كريم بنزيما", "زيدان", "رونالدينيو", "مودريتش","جول كوندي","أراخو","فرينكي دي يونغ","ميليتاو","فالفيردي","ابراهيم دياز","فينيسيوس","اراد غولير","بيلينجهام","أوبلاك","مولينا","دي بول","ألفاريز","أبراهيما كوناتي","فان دايك","أليكسيس مارك أليستير","محمد صلاح","سوبوسلاي","لويس دياز","جاكبو","دافيد رايا","بن وايت","ساليبا","توماس بارتي","ديكلان رايس","غابريل جيسوس","كايل ووكر","روبن دياز","ليونيل مسي","كريستيانو رونالدو","مانويل اكانجي","رودري","غوندوغان","دوكو","دي ليخت","كاسميرو","راشفورد","نوير","أوباميكانو","ألفونسو ديفيز","كيميتش","توماس مولر","ليروي ساني","باستوني","دومفريس","باريلا","زيدان اقبال","ابراهيم بايش","كيفين يعقوب","ديماركو","ماركوس تورام","أشرف حكيمي","ماركينيوس","عثمان ديمبلي","باركولا","نونو مينديز","كليان امبابي","نيمار","خفيتشا كفاراتسخيليا","بيدري","لامين يامال","انيغو مارتينز"],
+            football: [ "كريستيانو رونالدو", "محمد صلاح", "مبابي", "هالاند", "كريم بنزيما", "زيدان", "رونالدينيو", "مودريتش","جول كوندي","أراخو","فرينكي دي يونغ","ميليتاو","فالفيردي","ابراهيم دياز","فينيسيوس","اراد غولير","بيلينجهام","أوبلاك","مولينا","دي بول","ألفاريز","أبراهيما كوناتي","فان دايك","أليكسيس مارك أليستير","محمد صلاح","سوبوسلاي","لويس دياز","جاكبو","دافيد رايا","بن وايت","ساليبا","توماس بارتي","ديكلان رايس","غابريل جيسوس","كايل ووكر","روبن دياز","ليونيل مسي","كريستيانو رونالدو","مانويل اكانجي","رودري","غوندوغان","دوكو","دي ليخت","كاسميرو","راشفورد","نوير","أوباميكانو","ألفونسو ديفيز","كيميتش","توماس مولر","ليروي ساني","باستوني","دومفريس","باريلا","زيدان اقبال","ابراهيم بايش","كيفين يعقوب","ديماركو","ماركوس تورام","أشرف حكيمي","ماركينيوس","عثمان ديمبلي","باركولا","نونو مينديز","كليان امبابي","نيمار","خفيتشا كفاراتسخيليا","بيدري","لامين يامال","انيغو مارتينز"],
             movies: ["ذا ويكنك ديد","بريكنك باد" , "ذا سوبرانو","دارك","فيلاند ساقا","اتاك اون تايتن","فروم","بانشي","فايكنك","ذا لاست كندوم","كيم اوف ثرونز","برزون بريك"]
         };
 
@@ -169,6 +185,13 @@
         let outOfLoopPlayerIndex = 0; 
         let secretWord = "";
         let playerNames = [];  
+اً
+        window.onload = function() {
+            const savedNames = JSON.parse(localStorage.getItem('mudr_saved_names')) || [];
+            if (savedNames.length >= 3) {
+                document.getElementById('player-count').value = savedNames.length;
+            }
+        };
 
         function goToNamesScreen() {
             totalPlayers = parseInt(document.getElementById('player-count').value);
@@ -180,35 +203,36 @@
             const container = document.getElementById('names-inputs-container');
             container.innerHTML = ""; 
 
-          
+         
+            const savedNames = JSON.parse(localStorage.getItem('mudr_saved_names')) || [];
+
             for (let i = 1; i <= totalPlayers; i++) {
-                container.innerHTML += `<input type="text" placeholder="اسم اللاعب ${i}" class="player-name-input" required>`;
+        
+                let nameValue = savedNames[i - 1] || "";
+                container.innerHTML += `<input type="text" placeholder="اسم اللاعب ${i}" value="${nameValue}" class="player-name-input" required>`;
             }
 
             showScreen('names-screen');
         }
 
-    
         function startGame() {
             const inputs = document.querySelectorAll('.player-name-input');
             playerNames = [];
 
-        
             inputs.forEach((input, index) => {
                 let name = input.value.trim();
                 if (name === "") name = `اللاعب ${index + 1}`;
                 playerNames.push(name);
             });
 
-            
+            localStorage.setItem('mudr_saved_names', JSON.stringify(playerNames));
+
             const selectedCategory = document.getElementById('category-select').value;
             const wordsList = categories[selectedCategory];
             secretWord = wordsList[Math.floor(Math.random() * wordsList.length)];
 
-         
             outOfLoopPlayerIndex = Math.floor(Math.random() * totalPlayers);
 
-    
             currentPlayerIndex = 0;
             goToPassScreen();
         }
@@ -227,7 +251,14 @@
                 display.style.color = "#f43f5e";
                 display.style.borderColor = "#f43f5e";
             } else {
-                display.innerText = `الاعب هو: ${secretWord}`;
+                const selectedCategory = document.getElementById('category-select').value;
+                
+                if (selectedCategory === 'football') {
+                    display.innerText = `اللاعب هو: ${secretWord}`;
+                } else {
+                    display.innerText = `مسلسلك هو: ${secretWord}`;
+                }
+                
                 display.style.color = "#38bdf8";
                 display.style.borderColor = "#38bdf8";
             }
