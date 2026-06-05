@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة برا السالفة- Muntadhar mohammed</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- الهوية البصرية (Gaming Dark Theme) --- */
+        body {
+            font-family: 'Rubik', Arial, sans-serif;
+            background-color: #1e293b; 
+            color: #f8fafc;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .game-container {
+            background-color: #0f172a;
+            border: 2px solid #38bdf8; 
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        h1 { color: #38bdf8; margin-bottom: 25px; font-size: 28px; }
+        h2 { font-size: 22px; margin-bottom: 20px; color: #e2e8f0; }
+        p { color: #cbd5e1; font-size: 16px; line-height: 1.6; }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border: 1px solid #475569;
+            background-color: #1e293b;
+            color: white;
+            font-size: 16px;
+            font-family: 'Rubik', sans-serif;
+            box-sizing: border-box;
+        }
+
+        label {
+            display: block;
+            text-align: right;
+            margin-bottom: 8px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            background-color: #38bdf8;
+            color: #0f172a;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(56, 189, 248, 0.2);
+            font-family: 'Rubik', sans-serif;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0ea5e9;
+            transform: translateY(-2px);
+        }
+
+        .secret-text {
+            font-size: 26px;
+            font-weight: bold;
+            color: #f43f5e; 
+            margin: 25px 0;
+            background-color: #1e293b;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px dashed #f43f5e;
+        }
+
+        /* حاوية الأسماء لكي لا تخرج عن الشاشة إذا كان العدد كبيراً */
+        .names-list-container {
+            max-height: 250px;
+            overflow-y: auto;
+            padding-right: 5px;
+            margin-bottom: 15px;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <h1>🤫 برا السالفة</h1>
+
+        <div id="setup-screen">
+            <h2>إعداد اللعبة الجديدة</h2>
+            
+            <label for="player-count">عدد اللاعبين الكلي:</label>
+            <input type="number" id="player-count" min="3" max="12" value="3">
+
+            <label for="category-select">اختر فئة السالفة:</label>
+            <select id="category-select">
+                <option value="football">لاعبين كرة قدم ⚽</option>
+                <option value="movies">شخصيات أفلام ومسلسلات 🎬</option>
+            </select>
+
+            <button onclick="goToNamesScreen()">التالي: إدخال الأسماء 📝</button>
+        </div>
+
+        <div id="names-screen" class="hidden">
+            <h2>أدخل أسماء اللاعبين</h2>
+            <div id="names-inputs-container" class="names-list-container">
+                </div>
+            <button onclick="startGame()">ابدأ اللعبة الآن 🚀</button>
+        </div>
+
+        <div id="pass-screen" class="hidden">
+            <h2>دور اللاعب: <span id="current-player-name" style="color: #38bdf8;">فلان</span></h2>
+            <p>مرر الهاتف إلى الشخص المكتوب اسمه أعلاه، واضغط على الزر لرؤية السالفة سراً!</p>
+            <button onclick="showSecret()">اكشف السالفة 👁️</button>
+        </div>
+
+        <div id="secret-screen" class="hidden">
+            <h2>سرك البرمجي 🛡️</h2>
+            <div id="secret-display" class="secret-text">السالفة هنا</div>
+            <p>احفظ السالفة جيداً في رأسك، ثم اضغط على الزر ومرر الهاتف.</p>
+            <button onclick="nextPlayer()">فهمت، اللاعب التالي ➡️</button>
+        </div>
+
+        <div id="play-screen" class="hidden">
+            <h2>استجواب تايم! 🔥</h2>
+            <p>الآن، ابدأوا بالتحقيق والأسئلة! كل شخص يسأل الآخر سؤالاً ذكياً.</p>
+            <p>هدفكم: كشف الشخص الذي "برا السالفة".</p>
+            <br>
+            <button onclick="endGame()">إنهاء اللعبة وكشف الحقيقة 🕵️‍♂️</button>
+        </div>
+
+        <div id="result-screen" class="hidden">
+            <h2>انتهت اللعبة! 🎉</h2>
+            <p>الشخص الذي كان **برا السالفة** هو:</p>
+            <div id="liar-display" class="secret-text" style="color: #22c55e; border-color: #22c55e;">فلان</div>
+            <p>السالفة السرية كانت:</p>
+            <div id="final-word-display" class="secret-text">اسم الكلمة</div>
+            <button onclick="restartGame()">العب مجدداً 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        const categories = {
+            football: [ "كريستيانو رونالدو",  "محمد صلاح", "مبابي", "هالاند", "كريم بنزيما", "زيدان", "رونالدينيو", "مودريتش","جول كوندي","أراخو","فرينكي دي يونغ","ميليتاو","فالفيردي","ابراهيم دياز","فينيسيوس","اراد غولير","بيلينجهام","أوبلاك","مولينا","دي بول","ألفاريز","أبراهيما كوناتي","فان دايك","أليكسيس مارك أليستير","محمد صلاح","سوبوسلاي","لويس دياز","جاكبو","دافيد رايا","بن وايت","ساليبا","توماس بارتي","ديكلان رايس","غابريل جيسوس","كايل ووكر","روبن دياز","ليونيل مسي","كريستيانو رونالدو","مانويل اكانجي","رودري","غوندوغان","دوكو","دي ليخت","كاسميرو","راشفورد","نوير","أوباميكانو","ألفونسو ديفيز","كيميتش","توماس مولر","ليروي ساني","باستوني","دومفريس","باريلا","زيدان اقبال","ابراهيم بايش","كيفين يعقوب","ديماركو","ماركوس تورام","أشرف حكيمي","ماركينيوس","عثمان ديمبلي","باركولا","نونو مينديز","كليان امبابي","نيمار","خفيتشا كفاراتسخيليا","بيدري","لامين يامال","انيغو مارتينز"],
+            movies: ["جوكر", "باتمان", "سبايدرمان", "جون ويك", "هاري بوتر", "ثانوس", "والتر وايت", "شيرلوك هولمز", "سوبرمان"]
+        };
+
+        let totalPlayers = 0;
+        let currentPlayerIndex = 0; // يبدأ من 0 (أول عنصر في المصفوفة)
+        let outOfLoopPlayerIndex = 0; // مكان اللاعب المحتال في المصفوفة
+        let secretWord = "";
+        let playerNames = []; // مصفوفة جديدة لحفظ الأسماء الحقيقية
+
+        // دالة لتوليد حقول الأسماء بناءً على العدد المختار
+        function goToNamesScreen() {
+            totalPlayers = parseInt(document.getElementById('player-count').value);
+            if (totalPlayers < 3) {
+                alert("يجب أن يكون عدد اللاعبين 3 على الأقل!");
+                return;
+            }
+
+            const container = document.getElementById('names-inputs-container');
+            container.innerHTML = ""; // تنظيف الحقول القديمة
+
+            // توليد إنبوت لكل لاعب
+            for (let i = 1; i <= totalPlayers; i++) {
+                container.innerHTML += `<input type="text" placeholder="اسم اللاعب ${i}" class="player-name-input" required>`;
+            }
+
+            showScreen('names-screen');
+        }
+
+        // دالة بدء اللعبة الفعلي بعد جمع الأسماء
+        function startGame() {
+            const inputs = document.querySelectorAll('.player-name-input');
+            playerNames = [];
+
+            // جمع الأسماء من الحقول، وإذا كان الحقل فارغاً نضع اسماً افتراضياً
+            inputs.forEach((input, index) => {
+                let name = input.value.trim();
+                if (name === "") name = `اللاعب ${index + 1}`;
+                playerNames.push(name);
+            });
+
+            // اختيار الكلمة عشوائياً
+            const selectedCategory = document.getElementById('category-select').value;
+            const wordsList = categories[selectedCategory];
+            secretWord = wordsList[Math.floor(Math.random() * wordsList.length)];
+
+            // اختيار إندكس عشوائي للاعب اللي برا السالفة (من 0 إلى عدد اللاعبين - 1)
+            outOfLoopPlayerIndex = Math.floor(Math.random() * totalPlayers);
+
+            // تصفير العداد والبدء بأول لاعب في المصفوفة
+            currentPlayerIndex = 0;
+            goToPassScreen();
+        }
+
+        function goToPassScreen() {
+            showScreen('pass-screen');
+            document.getElementById('current-player-name').innerText = playerNames[currentPlayerIndex];
+        }
+
+        function showSecret() {
+            showScreen('secret-screen');
+            const display = document.getElementById('secret-display');
+
+            if (currentPlayerIndex === outOfLoopPlayerIndex) {
+                display.innerText = "🤫 أنت برا السالفة!";
+                display.style.color = "#f43f5e";
+                display.style.borderColor = "#f43f5e";
+            } else {
+                display.innerText = `الاعب هو: ${secretWord}`;
+                display.style.color = "#38bdf8";
+                display.style.borderColor = "#38bdf8";
+            }
+        }
+
+        function nextPlayer() {
+            currentPlayerIndex++; // الانتقال للاعب التالي
+            if (currentPlayerIndex < totalPlayers) {
+                goToPassScreen();
+            } else {
+                showScreen('play-screen');
+            }
+        }
+
+        function endGame() {
+            showScreen('result-screen');
+            document.getElementById('liar-display').innerText = playerNames[outOfLoopPlayerIndex];
+            document.getElementById('final-word-display').innerText = secretWord;
+        }
+
+        function restartGame() {
+            showScreen('setup-screen');
+        }
+
+        function showScreen(screenId) {
+            document.getElementById('setup-screen').classList.add('hidden');
+            document.getElementById('names-screen').classList.add('hidden');
+            document.getElementById('pass-screen').classList.add('hidden');
+            document.getElementById('secret-screen').classList.add('hidden');
+            document.getElementById('play-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.add('hidden');
+
+            document.getElementById(screenId).classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
